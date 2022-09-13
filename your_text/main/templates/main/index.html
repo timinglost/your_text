@@ -12,7 +12,11 @@
                     <div class="slide-text">
                         <h1>Добро пожаловать на наш сайт!</h1>
                         <p>Вы можете читать и коментировать статьи. Или напишите свою статью.</p>
-                        <a href="#" class="btn btn-common">ВОЙТИ</a>
+                        {% if user.is_authenticated %}
+                        <a href="#" class="btn btn-common">Написать статью</a>
+                        {% else %}
+                        <a href="{% url 'auth:login' %}" class="btn btn-common">ВОЙТИ</a>
+                        {% endif %}
                     </div>
                     <img src="{% static 'main/images/home/slider/hill.png' %}" class="slider-hill" alt="slider image">
                     <img src="{% static 'main/images/home/slider/house.png' %}" class="slider-house" alt="slider image">
