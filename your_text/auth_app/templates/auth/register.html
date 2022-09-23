@@ -22,16 +22,35 @@
                 <form method="post" action="">
                     {% csrf_token %}
                     <div class="form-group">
+                        <label for="city" class="col-md-4 col-lg-3 col-form-label">Аватар</label>
+                        {{ form.avatar }}
+                    </div>
+                    <div class="form-group">
                         {{ form.username }}
                     </div>
                     <div class="form-group">
-                        {{ form.password }}
+                        {{ form.first_name }}
                     </div>
                     <div class="form-group">
-                        <input type="submit" name="submit" class="btn btn-submit" value="Войти">
+                        {{ form.last_name }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.password1 }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password2 }}
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-submit" value="зарегистрироваться">
                     </div>
                 </form>
-                <a href="{% url 'auth:register' %}"><button type="button" class="btn btn-lg btn-success">зарегистрироваться</button></a>
+                <a href="{% url 'auth:login' %}">
+                    <button type="button" class="btn btn-lg btn-success">войти</button>
+                </a>
             </div>
         </div>
     </div>
