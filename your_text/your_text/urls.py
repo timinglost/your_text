@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('main.urls', namespace='main')),
     path('auth/', include('auth_app.urls', namespace='auth')),
     path('user/', include('user_app.urls', namespace='user')),
+    path('blog/', include('blog.urls', namespace='blog')),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

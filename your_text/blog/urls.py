@@ -4,5 +4,5 @@ from .views import *
 app_name = 'blog'
 
 urlpatterns = [
-    # path('login/', main, name='login'),
+    path('create/', create_post, name='create'),
 ]

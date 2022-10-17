@@ -24,7 +24,7 @@
                         <li class="dropdown"><a href="#">{{ user.username }}<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="{% url 'user:personal_area' %}">Личный кабинет</a></li>
-                                <li><a href="#">Написать статью</a></li>
+                                <li><a href="{% url 'blog:create' %}">Написать статью</a></li>
                                 <li><a href="{% url 'auth:logout' %}">Выйти</a></li>
                             </ul>
                         </li>
