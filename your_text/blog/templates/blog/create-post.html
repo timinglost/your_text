@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block head %}
+{% include 'main/includes/head.html' %}
+{% endblock %}
+{% block content %}
+<section id="clients">
+    <div class="container">
+        {% if form.errors %}
+        {% for field in form %}
+        {% for error in field.errors %}
+        <div class="alert alert-danger fade in">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4>{{ field.label }}</h4>
+            <p>{{ error|escape }}</p>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        {% endif %}
+        <div class="row">
+            <div class="col-sm-12">
+                <form method="post" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+<!--                        {{ form.old_password.lable }}-->
+<!--                        {{ form.old_password }}-->
+                    </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-submit" value="опубликовать">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block js %}
+{% include 'main/includes/js.html' %}
+{% endblock %}

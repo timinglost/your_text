@@ -13,7 +13,7 @@
                         <h1>Добро пожаловать на наш сайт!</h1>
                         <p>Вы можете читать и коментировать статьи. Или напишите свою статью.</p>
                         {% if user.is_authenticated %}
-                        <a href="#" class="btn btn-common">Написать статью</a>
+                        <a href="{% url 'blog:create' %}" class="btn btn-common">Написать статью</a>
                         {% else %}
                         <a href="{% url 'auth:login' %}" class="btn btn-common">ВОЙТИ</a>
                         {% endif %}
@@ -37,39 +37,17 @@
     <section id="features">
         <div class="container">
             <div class="row">
+                {% for post in posts %}
                 <div class="single-features">
                     <div class="col-sm-5 wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">
-                        <img src="{% static 'main/images/home/image1.png' %}" class="img-responsive" alt="">
+                        <img src="{{ post.image.url }}" class="img-responsive" alt="">
                     </div>
                     <div class="col-sm-6 wow fadeInRight" data-wow-duration="500ms" data-wow-delay="300ms">
-                        <h2>Experienced and Enthusiastic</h2>
-                        <P>Pork belly leberkas cow short ribs capicola pork loin. Doner fatback frankfurter jerky
-                            meatball pastrami bacon tail sausage. Turkey fatback ball tip, tri-tip tenderloin drumstick
-                            salami strip steak.</P>
+                        <h2><a href="#">{{ post.title }}</a></h2>
+                        <P>{{ post.content|truncatechars:300 }}</P>
                     </div>
                 </div>
-                <div class="single-features">
-                    <div class="col-sm-5 wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">
-                        <img src="{% static 'main/images/home/image1.png' %}" class="img-responsive" alt="">
-                    </div>
-                    <div class="col-sm-6 wow fadeInRight" data-wow-duration="500ms" data-wow-delay="300ms">
-                        <h2>Experienced and Enthusiastic</h2>
-                        <P>Pork belly leberkas cow short ribs capicola pork loin. Doner fatback frankfurter jerky
-                            meatball pastrami bacon tail sausage. Turkey fatback ball tip, tri-tip tenderloin drumstick
-                            salami strip steak.</P>
-                    </div>
-                </div>
-                <div class="single-features">
-                    <div class="col-sm-5 wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">
-                        <img src="{% static 'main/images/home/image1.png' %}" class="img-responsive" alt="">
-                    </div>
-                    <div class="col-sm-6 wow fadeInRight" data-wow-duration="500ms" data-wow-delay="300ms">
-                        <h2>Experienced and Enthusiastic</h2>
-                        <P>Pork belly leberkas cow short ribs capicola pork loin. Doner fatback frankfurter jerky
-                            meatball pastrami bacon tail sausage. Turkey fatback ball tip, tri-tip tenderloin drumstick
-                            salami strip steak.</P>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
