@@ -19,8 +19,8 @@
                 <div class="post-bottom overflow">
                     <ul class="nav navbar-nav post-nav">
                         <li>
-                            <i class="fa fa-heart"></i>
-                            {{ post.like_count }} Love
+                            <i class="fa fa-heart like {% if post.pk in likes %} like-on {% endif %}" name="{{ post.pk }}" url-like="{% url 'blog:like' post.pk %}"></i>
+                            <span class="count-like-{{ post.pk }}">{{ post.like_count }}</span> Love
                         </li>
                         <li><a href="{% url 'blog:post' post.pk %}"><i class="fa fa-comments"></i>{{ post.comment_count }} Comments</a></li>
                     </ul>

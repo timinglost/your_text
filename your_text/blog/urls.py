@@ -8,4 +8,5 @@ urlpatterns = [
     path('main/page/<int:page>/', main_post_list, name='main'),
     path('author/<slug:author>/page/<int:page>/', author_post_list, name='author'),
     path('post/<int:pk>/', user_post, name='post'),
+    path('post/like/<int:post_pk>/', like_post, name='like'),
 ]
