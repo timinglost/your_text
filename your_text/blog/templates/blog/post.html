@@ -11,6 +11,7 @@
 <link href="{% static 'main/css/animate.min.css' %}" rel="stylesheet">
 <link href="{% static 'main/css/main.css' %}" rel="stylesheet">
 <link href="{% static 'main/css/responsive.css' %}" rel="stylesheet">
+<link href="{% static 'blog/css/like.css' %}" rel="stylesheet">
 
 <!--[if lt IE 9]>
 <script src="{% static 'main/js/html5shiv.js' %}"></script>
@@ -29,6 +30,7 @@
 <script
         type="text/javascript">
     stLight.options({ publisher: "7e8eb33b-fbe0-4915-9b93-09490e3d10df", doNotHash: false, doNotCopy: false, hashAddressBar: false });
+
 
 
 
@@ -55,13 +57,16 @@
                             </div>
                             <div class="post-content overflow">
                                 <h2 class="post-title bold"><a href="#">{{ post.title }}</a></h2>
-                                <h3 class="post-author"><a href="{% url 'blog:author' post.author 1 %}">{{ post.author.get_full_name }} ({{ post.author }})</a></h3>
+                                <h3 class="post-author"><a href="{% url 'blog:author' post.author 1 %}">
+                                    {{ post.author.get_full_name }} ({{ post.author }})
+                                </a></h3>
                                 <p>{{ post.content }}</p>
                                 <div class="post-bottom overflow">
                                     <ul class="nav navbar-nav post-nav">
                                         <li>
-                                            <i class="fa fa-heart"></i>
-                                            {{ post.like_count }} Love
+                                            <i class="fa fa-heart like {% if post.pk in likes %} like-on {% endif %}"
+                                               name="{{ post.pk }}" url-like="{% url 'blog:like' post.pk %}"></i>
+                                            <span class="count-like-{{ post.pk }}">{{ post.like_count }}</span> Love
                                         </li>
                                         <li><i class="fa fa-comments"></i>{{ post.comment_count }} Comments
                                         </li>
@@ -95,7 +100,8 @@
                                                         laboris nisi.</p>
                                                     <ul class="nav navbar-nav post-nav">
                                                         <li><i class="fa fa-clock-o"></i>February
-                                                            11,2014</li>
+                                                            11,2014
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -115,4 +121,5 @@
 {% endblock %}
 {% block js %}
 {% include 'main/includes/js.html' %}
+{% include 'blog/includes/js.html' %}
 {% endblock %}
