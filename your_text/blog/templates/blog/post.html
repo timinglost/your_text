@@ -1,0 +1,118 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block head %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link href="{% static 'main/css/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/css/font-awesome.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/css/lightbox.css' %}" rel="stylesheet">
+<link href="{% static 'main/css/animate.min.css' %}" rel="stylesheet">
+<link href="{% static 'main/css/main.css' %}" rel="stylesheet">
+<link href="{% static 'main/css/responsive.css' %}" rel="stylesheet">
+
+<!--[if lt IE 9]>
+<script src="{% static 'main/js/html5shiv.js' %}"></script>
+<script src="{% static 'main/js/respond.min.js' %}"></script>
+<![endif]-->
+<link rel="shortcut icon" href="{% static 'main/images/ico/favicon.ico' %}">
+<link rel="apple-touch-icon-precomposed" sizes="144x144"
+      href="{% static 'main/images/ico/apple-touch-icon-144-precomposed.png' %}">
+<link rel="apple-touch-icon-precomposed" sizes="114x114"
+      href="{% static 'main/images/ico/apple-touch-icon-114-precomposed.png' %}">
+<link rel="apple-touch-icon-precomposed" sizes="72x72"
+      href="{% static 'main/images/ico/apple-touch-icon-72-precomposed.png' %}">
+<link rel="apple-touch-icon-precomposed" href="{% static 'main/images/ico/apple-touch-icon-57-precomposed.png' %}">
+<script type="text/javascript">var switchTo5x = true;</script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script
+        type="text/javascript">
+    stLight.options({ publisher: "7e8eb33b-fbe0-4915-9b93-09490e3d10df", doNotHash: false, doNotCopy: false, hashAddressBar: false });
+
+
+
+</script>
+{% endblock %}
+{% block content %}
+
+
+<!--/head-->
+
+
+<section id="blog-details" class="padding-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-sm-7">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="single-blog blog-details two-column">
+                            <div class="post-thumb">
+                                <a href="#"><img src="{{ post.image.url }}" class="img-responsive" alt=""></a>
+                                <div class="post-overlay">
+                                    <span class="uppercase"><a href="#">{{ post.created.day }} <br><small>{{ post.created.month }}.{{ post.created.year }}</small></a></span>
+                                </div>
+                            </div>
+                            <div class="post-content overflow">
+                                <h2 class="post-title bold"><a href="#">{{ post.title }}</a></h2>
+                                <h3 class="post-author"><a href="{% url 'blog:author' post.author 1 %}">{{ post.author.get_full_name }} ({{ post.author }})</a></h3>
+                                <p>{{ post.content }}</p>
+                                <div class="post-bottom overflow">
+                                    <ul class="nav navbar-nav post-nav">
+                                        <li>
+                                            <i class="fa fa-heart"></i>
+                                            {{ post.like_count }} Love
+                                        </li>
+                                        <li><i class="fa fa-comments"></i>{{ post.comment_count }} Comments
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="author-profile padding">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <img src="{{ post.author.avatar.url }}" alt="">
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <h3>{{ post.author.get_full_name }} ({{ post.author }})</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="response-area">
+                                    <h2 class="bold">Comments</h2>
+                                    <ul class="media-list">
+                                        <li class="media">
+                                            <div class="post-comment">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object" src="images/blogdetails/2.png" alt="">
+                                                </a>
+                                                <div class="media-body">
+                                                        <span><i class="fa fa-user"></i>Posted by <a
+                                                                href="#">Endure</a></span>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                                                        do eiusmod tempor incididunt ut labore et dolore magna aliq
+                                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                                                        laboris nisi.</p>
+                                                    <ul class="nav navbar-nav post-nav">
+                                                        <li><i class="fa fa-clock-o"></i>February
+                                                            11,2014</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--/Response-area-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block js %}
+{% include 'main/includes/js.html' %}
+{% endblock %}
