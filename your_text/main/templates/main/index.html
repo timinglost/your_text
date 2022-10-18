@@ -43,7 +43,7 @@
                         <img src="{{ post.image.url }}" class="img-responsive" alt="">
                     </div>
                     <div class="col-sm-6 wow fadeInRight" data-wow-duration="500ms" data-wow-delay="300ms">
-                        <h2><a href="#">{{ post.title }}</a></h2>
+                        <h2><a href="{% url 'blog:post' post.pk %}">{{ post.title }}</a></h2>
                         <P>{{ post.content|truncatechars:300 }}</P>
                     </div>
                 </div>

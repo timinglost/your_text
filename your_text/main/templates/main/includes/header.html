@@ -15,7 +15,7 @@
                         <li class="active"><a href="{% url 'main:index' %}">Главная</a></li>
                         <li class="dropdown"><a href="#">Статьи<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
-                                <li><a href="#">Все</a></li>
+                                <li><a href="{% url 'blog:main' 1 %}">Все</a></li>
                                 <li><a href="#">Отслеживаемые авторы</a></li>
                                 <li><a href="#">Лучшие</a></li>
                             </ul>
