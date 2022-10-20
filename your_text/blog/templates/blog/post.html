@@ -34,6 +34,7 @@
 
 
 
+
 </script>
 {% endblock %}
 {% block content %}
@@ -68,7 +69,7 @@
                                                name="{{ post.pk }}" url-like="{% url 'blog:like' post.pk %}"></i>
                                             <span class="count-like-{{ post.pk }}">{{ post.like_count }}</span> Love
                                         </li>
-                                        <li><i class="fa fa-comments"></i>{{ post.comment_count }} Comments
+                                        <li><i class="fa fa-comments"></i><span class="comm-count">{{ post.comment_count }}</span> Comments
                                         </li>
 
                                     </ul>
@@ -85,27 +86,17 @@
                                 </div>
                                 <div class="response-area">
                                     <h2 class="bold">Comments</h2>
+                                    <form method="post" id="UserComment" action="" post-pk="{{ post.pk }}">
+                                        {% csrf_token %}
+                                        <textarea name="text" id="comment" required="required" class="form-control"
+                                                  rows="8" placeholder="Ваш текст здесь"></textarea>
+                                        <div class="form-group">
+                                            <input type="submit" name="submit" class="btn btn-submit"
+                                                   value="опубликовать">
+                                        </div>
+                                    </form>
                                     <ul class="media-list">
-                                        <li class="media">
-                                            <div class="post-comment">
-                                                <a class="pull-left" href="#">
-                                                    <img class="media-object" src="images/blogdetails/2.png" alt="">
-                                                </a>
-                                                <div class="media-body">
-                                                        <span><i class="fa fa-user"></i>Posted by <a
-                                                                href="#">Endure</a></span>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                                                        do eiusmod tempor incididunt ut labore et dolore magna aliq
-                                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                                                        laboris nisi.</p>
-                                                    <ul class="nav navbar-nav post-nav">
-                                                        <li><i class="fa fa-clock-o"></i>February
-                                                            11,2014
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </li>
+                                        {% include 'blog/includes/comment.html' %}
                                     </ul>
                                 </div>
                                 <!--/Response-area-->

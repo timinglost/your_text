@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from .forms import CreatePost
 from django.urls import reverse
-from .models import UserPost, Like
+from .models import UserPost, Like, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
 from django.http import JsonResponse
@@ -43,7 +43,7 @@ def create_post(request):
 def main_post_list(request, page=1):
     title = 'посты'
 
-    posts = UserPost.objects.all()
+    posts = UserPost.objects.all().order_by('-created')
     likes = get_like_pk(request.user)
 
     paginator = Paginator(posts, 5)
@@ -66,7 +66,7 @@ def main_post_list(request, page=1):
 def author_post_list(request, author, page=1):
     title = 'посты'
 
-    posts = UserPost.objects.filter(author__username=author)
+    posts = UserPost.objects.filter(author__username=author).order_by('-created')
     likes = get_like_pk(request.user)
 
     paginator = Paginator(posts, 5)
@@ -87,16 +87,41 @@ def author_post_list(request, author, page=1):
     return render(request, 'blog/author-post.html', context)
 
 
+def top_post_list(request, page=1):
+    title = 'посты'
+
+    posts = UserPost.objects.all().order_by('-like_count')
+    likes = get_like_pk(request.user)
+
+    paginator = Paginator(posts, 5)
+    try:
+        posts_paginator = paginator.page(page)
+    except PageNotAnInteger:
+        posts_paginator = paginator.page(1)
+    except EmptyPage:
+        posts_paginator = paginator.page(paginator.num_pages)
+
+    context = {
+        'title': title,
+        'posts': posts_paginator,
+        'likes': likes
+    }
+
+    return render(request, 'blog/top-post-list.html', context)
+
+
 def user_post(request, pk):
     title = 'пост'
 
     post = get_object_or_404(UserPost, pk=pk)
     likes = get_like_pk(request.user)
+    comments = Comment.objects.filter(post_id=pk)
 
     context = {
         'title': title,
         'post': post,
-        'likes': likes
+        'likes': likes,
+        'comments': comments
     }
 
     return render(request, 'blog/post.html', context)
@@ -117,3 +142,24 @@ def like_post(request, post_pk):
             like.save()
         like_count = post.like_count
         return JsonResponse({'like_count': like_count})
+
+
+def comment_post(request, post_pk):
+    if is_ajax(request):
+        post = get_object_or_404(UserPost, pk=post_pk)
+        comment = Comment(
+            text=request.POST['text'],
+            author=request.user,
+            post_id=post
+        )
+        comment.save()
+        post.comment_count += 1
+        post.save()
+        comments = Comment.objects.filter(post_id=post_pk)
+
+        context = {
+            'comments': comments
+        }
+        result = render_to_string('blog/includes/comment.html', context)
+
+        return JsonResponse({'result': result, 'comment_count': post.comment_count})

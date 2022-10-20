@@ -5,7 +5,7 @@ from blog.models import UserPost
 def main(request):
     title = 'главная'
 
-    posts = UserPost.objects.all()[:3]
+    posts = UserPost.objects.all().order_by('-like_count')[:3]
 
     context = {
         'title': title,

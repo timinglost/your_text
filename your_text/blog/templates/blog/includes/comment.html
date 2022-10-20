@@ -1,0 +1,20 @@
+{% load static %}
+{% for comment in comments %}
+<li class="media">
+    <div class="post-comment">
+        <a class="pull-left" href="#">
+            <img class="media-object" src="{{ comment.author.avatar.url }}" alt="" style="width: 50%;">
+        </a>
+        <div class="media-body">
+                                                        <span><i class="fa fa-user"></i>Posted by <a
+                                                                href="#">{{ comment.author }}</a></span>
+            <p>{{ comment.text }}</p>
+            <ul class="nav navbar-nav post-nav">
+                <li><i class="fa fa-clock-o"></i>
+                    {{ comment.created }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</li>
+{% endfor %}
