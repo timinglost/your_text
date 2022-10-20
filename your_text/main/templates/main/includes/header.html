@@ -16,8 +16,7 @@
                         <li class="dropdown"><a href="#">Статьи<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="{% url 'blog:main' 1 %}">Все</a></li>
-                                <li><a href="#">Отслеживаемые авторы</a></li>
-                                <li><a href="#">Лучшие</a></li>
+                                <li><a href="{% url 'blog:top' 1 %}">Лучшие</a></li>
                             </ul>
                         </li>
                         {% if user.is_authenticated %}

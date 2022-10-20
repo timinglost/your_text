@@ -51,6 +51,11 @@ class Comment(models.Model):
         on_delete=models.CASCADE
     )
 
+    post_id = models.ForeignKey(
+        UserPost,
+        on_delete=models.CASCADE
+    )
+
 
 class Like(models.Model):
     user_id = models.ForeignKey(
