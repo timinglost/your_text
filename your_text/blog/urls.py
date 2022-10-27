@@ -11,4 +11,5 @@ urlpatterns = [
     path('post/<int:pk>/', user_post, name='post'),
     path('post/like/<int:post_pk>/', like_post, name='like'),
     path('post/comment/<int:post_pk>', comment_post, name='comment'),
+    path('sub/page/<int:page>/', sub_post_list, name='sub_authors'),
 ]

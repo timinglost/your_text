@@ -1,0 +1,88 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block head %}
+{% include 'main/includes/head.html' %}
+{% endblock %}
+{% block content %}
+    <section id="page-breadcrumb">
+        <div class="vertical-center sun">
+             <div class="container">
+                <div class="row">
+                    <div class="action">
+                        <div class="col-sm-12">
+                            <h1 class="title">Профиль</h1>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </section>
+    <!--/#action-->
+
+    <section id="portfolio-information" class="padding-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    {% if user_info.avatar %}
+                    <img src="{{ user_info.avatar.url }}" class="img-responsive" alt="">
+                    {% endif %}
+                </div>
+                <div class="col-sm-6">
+                    <div class="project-name overflow">
+                        <h2 class="bold">{{ user_info.get_full_name }} - username: {{ user_info.username }}</h2>
+                        <ul class="nav navbar-nav navbar-default">
+                            <li>
+                                <button id="{{ user_info.pk }}" url-sub="{% url 'user:author_sub' user_info.pk %}" type="button" class="btn btn-xs btn-success sub">
+                                    {% if sub_ %}
+                                    отписаться
+                                    {% else %}
+                                    подписаться
+                                    {% endif %}
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+     <!--/#portfolio-information-->
+    {% if last_post %}
+    <section id="related-work" class="padding-top padding-bottom">
+        <div class="container">
+            <div class="row">
+                <h1 class="title text-center">Последние публикации</h1>
+                {% for post in last_post %}
+                <div class="col-sm-3">
+                    <div class="portfolio-wrapper">
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                {% if post.image %}
+                                <img src="{{ post.image.url }}" class="img-responsive" alt="">
+                                {% endif %}
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    {% if post.image %}
+                                    <li><a href="{{ post.image.url }}" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="portfolio-info ">
+                            <h2><a href="{% url 'blog:post' post.pk %}">{{ post.title }}</a></h2>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    <!--/#related-work-->
+{% endblock %}
+{% block js %}
+{% include 'main/includes/js.html' %}
+<script type="text/javascript" src="{% static 'user_app/js/sub.js' %}"></script>
+{% endblock %}

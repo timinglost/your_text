@@ -3,11 +3,13 @@
 <li class="media">
     <div class="post-comment">
         <a class="pull-left" href="#">
+            {% if comment.author.avatar %}
             <img class="media-object" src="{{ comment.author.avatar.url }}" alt="" style="width: 50%;">
+            {% endif %}
         </a>
         <div class="media-body">
                                                         <span><i class="fa fa-user"></i>Posted by <a
-                                                                href="#">{{ comment.author }}</a></span>
+                                                                href="{% url 'user:user_profile' comment.author.pk %}">{{ comment.author }}</a></span>
             <p>{{ comment.text }}</p>
             <ul class="nav navbar-nav post-nav">
                 <li><i class="fa fa-clock-o"></i>

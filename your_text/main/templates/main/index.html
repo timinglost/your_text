@@ -40,7 +40,9 @@
                 {% for post in posts %}
                 <div class="single-features">
                     <div class="col-sm-5 wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">
+                        {% if post.image %}
                         <img src="{{ post.image.url }}" class="img-responsive" alt="">
+                        {% endif %}
                     </div>
                     <div class="col-sm-6 wow fadeInRight" data-wow-duration="500ms" data-wow-delay="300ms">
                         <h2><a href="{% url 'blog:post' post.pk %}">{{ post.title }}</a></h2>
