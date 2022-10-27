@@ -4,8 +4,11 @@
     <div class="col-sm-12 col-md-12">
         <div class="single-blog single-column">
             <div class="post-thumb">
-                <a href="{% url 'blog:post' post.pk %}"><img src="{{ post.image.url }}" class="img-responsive"
-                                                alt=""></a>
+                <a href="{% url 'blog:post' post.pk %}">
+                    {% if post.image %}
+                    <img src="{{ post.image.url }}" class="img-responsive" alt="">
+                    {% endif %}
+                </a>
                 <div class="post-overlay">
                     <span class="uppercase"><a href="#">{{ post.created.day }} <br><small>{{ post.created.month }}.{{ post.created.year }}</small></a></span>
                 </div>

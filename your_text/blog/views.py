@@ -5,6 +5,7 @@ from .models import UserPost, Like, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from user_app.models import Subscription
 
 
 def is_ajax(request):
@@ -44,7 +45,10 @@ def main_post_list(request, page=1):
     title = 'посты'
 
     posts = UserPost.objects.all().order_by('-created')
-    likes = get_like_pk(request.user)
+    if request.user.is_authenticated:
+        likes = get_like_pk(request.user)
+    else:
+        likes = []
 
     paginator = Paginator(posts, 5)
     try:
@@ -67,7 +71,10 @@ def author_post_list(request, author, page=1):
     title = 'посты'
 
     posts = UserPost.objects.filter(author__username=author).order_by('-created')
-    likes = get_like_pk(request.user)
+    if request.user.is_authenticated:
+        likes = get_like_pk(request.user)
+    else:
+        likes = []
 
     paginator = Paginator(posts, 5)
     try:
@@ -91,7 +98,10 @@ def top_post_list(request, page=1):
     title = 'посты'
 
     posts = UserPost.objects.all().order_by('-like_count')
-    likes = get_like_pk(request.user)
+    if request.user.is_authenticated:
+        likes = get_like_pk(request.user)
+    else:
+        likes = []
 
     paginator = Paginator(posts, 5)
     try:
@@ -110,12 +120,48 @@ def top_post_list(request, page=1):
     return render(request, 'blog/top-post-list.html', context)
 
 
+def sub_post_list(request, page=1):
+    title = 'посты'
+    sub_ = Subscription.objects.filter(subscriber=request.user)
+    sub = []
+    for s in sub_:
+        sub.append(s.author)
+    posts_ = UserPost.objects.all().order_by('-created')
+    posts = []
+    for post in posts_:
+        if post.author in sub:
+            posts.append(post)
+    if request.user.is_authenticated:
+        likes = get_like_pk(request.user)
+    else:
+        likes = []
+
+    paginator = Paginator(posts, 5)
+    try:
+        posts_paginator = paginator.page(page)
+    except PageNotAnInteger:
+        posts_paginator = paginator.page(1)
+    except EmptyPage:
+        posts_paginator = paginator.page(paginator.num_pages)
+
+    context = {
+        'title': title,
+        'posts': posts_paginator,
+        'likes': likes
+    }
+
+    return render(request, 'blog/sub-post.html', context)
+
+
 def user_post(request, pk):
     title = 'пост'
 
     post = get_object_or_404(UserPost, pk=pk)
-    likes = get_like_pk(request.user)
-    comments = Comment.objects.filter(post_id=pk)
+    if request.user.is_authenticated:
+        likes = get_like_pk(request.user)
+    else:
+        likes = []
+    comments = Comment.objects.filter(post_id=pk).order_by('-created')
 
     context = {
         'title': title,
@@ -129,19 +175,22 @@ def user_post(request, pk):
 
 def like_post(request, post_pk):
     if is_ajax(request):
-        post = get_object_or_404(UserPost, pk=post_pk)
-        like = Like.objects.filter(user_id=request.user, post_id=post_pk)
-        if like:
-            post.like_count -= 1
-            post.save()
-            like.delete()
+        if request.user.is_authenticated:
+            post = get_object_or_404(UserPost, pk=post_pk)
+            like = Like.objects.filter(user_id=request.user, post_id=post_pk)
+            if like:
+                post.like_count -= 1
+                post.save()
+                like.delete()
+            else:
+                post.like_count += 1
+                post.save()
+                like = Like(user_id=request.user, post_id=post)
+                like.save()
+            like_count = post.like_count
+            return JsonResponse({'like_count': like_count, 'authenticated': True})
         else:
-            post.like_count += 1
-            post.save()
-            like = Like(user_id=request.user, post_id=post)
-            like.save()
-        like_count = post.like_count
-        return JsonResponse({'like_count': like_count})
+            return JsonResponse({'authenticated': False})
 
 
 def comment_post(request, post_pk):
@@ -155,7 +204,7 @@ def comment_post(request, post_pk):
         comment.save()
         post.comment_count += 1
         post.save()
-        comments = Comment.objects.filter(post_id=post_pk)
+        comments = Comment.objects.filter(post_id=post_pk).order_by('-created')
 
         context = {
             'comments': comments

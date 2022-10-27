@@ -51,14 +51,16 @@
                     <div class="col-md-12 col-sm-12">
                         <div class="single-blog blog-details two-column">
                             <div class="post-thumb">
+                                {% if post.image %}
                                 <a href="#"><img src="{{ post.image.url }}" class="img-responsive" alt=""></a>
+                                {% endif %}
                                 <div class="post-overlay">
                                     <span class="uppercase"><a href="#">{{ post.created.day }} <br><small>{{ post.created.month }}.{{ post.created.year }}</small></a></span>
                                 </div>
                             </div>
                             <div class="post-content overflow">
                                 <h2 class="post-title bold"><a href="#">{{ post.title }}</a></h2>
-                                <h3 class="post-author"><a href="{% url 'blog:author' post.author 1 %}">
+                                <h3 class="post-author"><a href="{% url 'user:user_profile' post.author.pk %}">
                                     {{ post.author.get_full_name }} ({{ post.author }})
                                 </a></h3>
                                 <p>{{ post.content }}</p>
@@ -77,7 +79,9 @@
                                 <div class="author-profile padding">
                                     <div class="row">
                                         <div class="col-sm-2">
+                                            {% if post.author.avatar %}
                                             <img src="{{ post.author.avatar.url }}" alt="">
+                                            {% endif %}
                                         </div>
                                         <div class="col-sm-10">
                                             <h3>{{ post.author.get_full_name }} ({{ post.author }})</h3>
@@ -86,6 +90,7 @@
                                 </div>
                                 <div class="response-area">
                                     <h2 class="bold">Comments</h2>
+                                    {% if user.is_authenticated %}
                                     <form method="post" id="UserComment" action="" post-pk="{{ post.pk }}">
                                         {% csrf_token %}
                                         <textarea name="text" id="comment" required="required" class="form-control"
@@ -95,6 +100,12 @@
                                                    value="опубликовать">
                                         </div>
                                     </form>
+                                    {% else %}
+                                    <p>
+                                        <a href="{% url 'auth:login' %}?next={{request.path}}">Войдите</a>
+                                        что-бы комментировать.
+                                    </p>
+                                    {% endif %}
                                     <ul class="media-list">
                                         {% include 'blog/includes/comment.html' %}
                                     </ul>

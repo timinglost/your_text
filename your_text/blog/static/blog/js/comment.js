@@ -12,6 +12,7 @@
                 success : function(response){
                     $('.media-list').html(response['result']);
                     $('.comm-count').html(response['comment_count']);
+                    e.target.reset();
                 },
                 error : function(rs, e){
                     alert(rs.statusText);

@@ -1,21 +1,25 @@
 'use strict'
 
-$(".like").on("click", function(){
+$(".sub").on("click", function(){
 
-    var pk = $(this).attr("name");
-    var url = $(this).attr("url-like");
-    $(this).toggleClass('like-on');
+    var pk = $(this).attr("id");
+    var url = $(this).attr("url-sub");
 
     $.ajax({
         url: url,
         success : function(response){
             if (response['authenticated']) {
-                $(`.count-like-${pk}`).html(response['like_count']);
+                if (response['sub']) {
+                    $('.sub').html('отписаться');
+                } else {
+                    $('.sub').html('подписаться')
+                }
             } else {
                 window.location.href = '/auth/login/?next=' + location.href;
             }
         },
         error: function(rs, e) {
+            console.log(rs);
             alert(rs.statusText);
         }
     });

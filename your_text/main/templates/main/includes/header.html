@@ -17,6 +17,9 @@
                             <ul role="menu" class="sub-menu">
                                 <li><a href="{% url 'blog:main' 1 %}">Все</a></li>
                                 <li><a href="{% url 'blog:top' 1 %}">Лучшие</a></li>
+                                {% if user.is_authenticated %}
+                                <li><a href="{% url 'blog:sub_authors' 1 %}">Отслеживаемое</a></li>
+                                {% endif %}
                             </ul>
                         </li>
                         {% if user.is_authenticated %}
